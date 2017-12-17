@@ -102,7 +102,8 @@ namespace JGame.DB
 			try  
 			{  
 				MySqlCommand command = new MySqlCommand(sql, _mysql_connection);
-				command.ExecuteNonQuery();
+				int nCount = command.ExecuteNonQuery();
+				JLog.Debug("SQL:" + sql + "\nexectued effect lines:" + nCount.ToString());
 			}  
 			catch (Exception e)  
 			{  
@@ -127,8 +128,6 @@ namespace JGame.DB
 				JLog.Error("Select SQL:" + sql + "error message:" + e.Message.ToString());  
 				return null;
 			}
-
-			return null;
 		}
 
 		/// <summary>
@@ -145,7 +144,7 @@ namespace JGame.DB
 				_mysql_connection = new MySqlConnection (strConnectString);
 				_mysql_connection.Open ();
 			} catch (Exception) {
-				JLog.Info ("Open mysql database Exception.");
+				JLog.Error ("Open mysql database Exception.");
 				return false;
 			}
 
@@ -153,7 +152,7 @@ namespace JGame.DB
 				JLog.Info ("Open mysql success.");
 				return true;
 			}
-			JLog.Info ("Open mysql database failed.");
+			JLog.Error ("Open mysql database failed.");
 			return false;
 		}
 
