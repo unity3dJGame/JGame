@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace JGame
 {
 	using JGame.Network;
-	using JGame.Processer;
+	using JGame.Processor;
 
 	namespace Logic
 	{

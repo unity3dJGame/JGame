@@ -9,7 +9,7 @@ namespace JGame
 	using JGame.Log;
 	using JGame.Logic;
 	using JGame.Network;
-	using JGame.Processer;
+	using JGame.Processor;
 
 	public class JGameManager
 	{

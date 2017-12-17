@@ -23,8 +23,8 @@ namespace JGame.StreamObject
 
 		[Description("account register require")]
 		account_register,	//注册用户包
-		[Description("sign in return")]
-		sign_in_ret,	//登录包
+		[Description("account register retrun")]
+		account_register_ret,	//登录包
 
 		[Description("end of object types")]
 		hot_end

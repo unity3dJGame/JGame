@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace JGame
 {
 	using JGame.Network;
-	using JGame.Processer;
+	using JGame.Processor;
 	using JGame.StreamObject;
 	using JGame.Data;
 	using JGame.LocalData;
@@ -48,7 +48,7 @@ namespace JGame
 				if (!JNetworkHelper.IsValidPacketType (packetType))
 					return;
 
-				IProcesser processor = JLogicHelper.getProcessor (packetType);
+				IProcessor processor = JLogicHelper.getProcessor (packetType);
 				if (null == processor)
 					return;
 
@@ -57,7 +57,7 @@ namespace JGame
 
 			public static void ProcessLocalData(JPacketType data)
 			{
-				IProcesser processor = JLogicHelper.getProcessor (data);
+				IProcessor processor = JLogicHelper.getProcessor (data);
 				if (null == processor)
 					return;
 
