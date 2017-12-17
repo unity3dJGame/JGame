@@ -21,8 +21,6 @@ public class SignInNet : MonoBehaviour {
 	public Canvas SignInPage;
 	public Canvas RegisterPage;
 
-	private static string _server_ip = "127.0.0.1";
-	private static int	  _server_port = 9796;	
 	private static Socket _client_socket = null;
 	private static bool   _connected = false;
 
