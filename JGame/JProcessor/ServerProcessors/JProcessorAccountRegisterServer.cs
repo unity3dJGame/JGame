@@ -43,7 +43,7 @@ namespace JGame
 					{
 						string resultMssage = "";
 						bool inserResult = sqlite.DoSql(
-							string.Format("INSERT into  {0}  ( user_account, user_code, user_email)  VALUES( ' {1}' , '{2}' , '{3}' );",
+							string.Format("INSERT into  {0}  ( user_account, user_code, user_email)  VALUES( '{1}' , '{2}' , '{3}' );",
 								"user_info", 
 								accountRegisterObj._strAccount, 
 								accountRegisterObj._strCode, 

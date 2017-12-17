@@ -28,7 +28,7 @@ public class AccountRegisterNet : MonoBehaviour {
 	//登录检查
 	public void ToSendRegisterData()
 	{
-		if (!UserCode1.Equals (UserCode2)) {
+		if (!UserCode1.text.Equals (UserCode2.text)) {
 			JLog.Info ("两次密码输入不一致！");
 			return;
 		}
