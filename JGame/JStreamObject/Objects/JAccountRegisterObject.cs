@@ -44,9 +44,10 @@ namespace JGame.StreamObject
 		{
 			successed = 0,
 			accountRepeated ,
+			accountNotAllowed,
 			codeIsTooSimple,
-			emailIsRegistered,
-			emailNotExisted
+			aodeNotAllowed,
+			emailIsRegistered
 		}
 
 		public ushort Type ()
