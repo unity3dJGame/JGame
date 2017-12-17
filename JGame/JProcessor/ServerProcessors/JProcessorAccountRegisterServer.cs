@@ -13,8 +13,8 @@ namespace JGame
 			public void run(IDataSet dataSet)
 			{
 				IStreamObj obj = dataSet.getData (JObjectType.account_register);
-				JObjAccountRegisterReq signInObj = obj as JObj_SignIn;
-				if (signInObj == null)
+				JObjAccountRegisterReq accountRegisterObj = obj as JObjAccountRegisterReq;
+				if (accountRegisterObj == null)
 					return;
 			}
 		}

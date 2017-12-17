@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Assets;
 using System.Data;
-
+using JGame.DB;
 
 public class sign_in : MonoBehaviour {
 	public Text text_edit_username = null;
@@ -12,10 +11,10 @@ public class sign_in : MonoBehaviour {
 	public Slider _progress = null;
 	public Text _progress_text = null;
 
-	private MySqlAccess _db = null;
+	private JMySqlAccess _db = null;
 
 	void Start(){
-		_db = new MySqlAccess ();
+		_db = new JMySqlAccess ("mysql", "127.0.0.1", "root", "684268");
 	}
 
 	// Use this for sign in

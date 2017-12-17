@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Assets;
 using System.Data;
+using JGame.DB;
 
 public class MySqlFunction {
 	private static string _str_table_name = "user_info";
@@ -22,7 +22,7 @@ public class MySqlFunction {
 	/// <param name="db">Db.</param>
 	/// <param name="id">Identifier.</param>
 	/// <param name="code">Code.</param>
-	public static bool QueryUserIdAndCodeMatched(MySqlAccess db, string id, string code)
+	public static bool QueryUserIdAndCodeMatched(JMySqlAccess db, string id, string code)
 	{
 		if (db == null)
 			throw new Exception ("db is null.");
