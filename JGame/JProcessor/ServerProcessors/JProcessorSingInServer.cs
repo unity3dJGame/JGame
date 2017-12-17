@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Data;
 
 namespace JGame
 {
 	using Data;
 	using StreamObject;
 	using Network;
+	using DB;
 	namespace Processor
 	{
 		
@@ -22,8 +24,24 @@ namespace JGame
 				JLog.Info("receive npt_signin_req packet from client: account:"+account+"  code:"+code, JGame.Log.JLogCategory.Network);
 
 				JObj_SignRet resultObj = new JObj_SignRet ();
-				//ToDo:if account and code is in database then
-				if (account == "test" && code == "123") 
+				JMySqlAccess sqlite = new JMySqlAccess ("mysql", "127.0.0.1", "root", "684268");
+				if (!sqlite.Open())
+					return;
+				if (!sqlite.Connected)
+					return;
+
+				DataSet data = sqlite.Select (string.Format(
+					@"Select count(1) from user_info t where t.user_account = '{0}' and t.user_code = '{1}'" ,
+					signInObj._strAccount,
+					signInObj._strCode));
+
+				if (null == data || null == data.Tables)
+					return;
+				if (data.Tables.Count <= 0 || data.Tables [0].Rows.Count <= 0)
+					return;
+				int reusltCount = (int)data.Tables [0].Rows [0] [0];
+
+				if (reusltCount > 0) 
 				{
 					resultObj.Result = true;
 				}

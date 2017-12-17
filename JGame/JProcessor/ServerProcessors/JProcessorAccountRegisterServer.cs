@@ -21,15 +21,15 @@ namespace JGame
 					return;
 				
 				JMySqlAccess sqlite = new JMySqlAccess ("mysql", "127.0.0.1", "root", "684268");
-				if (!sqlite.Connected)
+				if (!sqlite.Open())
 					return;
+				if (!sqlite.Connected)
+						return;
 
-				DataSet data = sqlite.Select (
-					"Select count(1) from user_info t where" +
-					" t.user_account == "  + accountRegisterObj._strAccount +
-					" t.user_code == " + accountRegisterObj._strCode +
-					" t.user_email == " + accountRegisterObj._strEmailAddress
-				);
+				DataSet data = sqlite.Select (string.Format(
+					@"Select count(1) from user_info t where t.user_account = '{0}' or t.user_email = '{1}'" ,
+					accountRegisterObj._strAccount,
+					accountRegisterObj._strEmailAddress));
 
 				if (null == data || null == data.Tables)
 					return;
@@ -37,24 +37,33 @@ namespace JGame
 					return;
 				int reusltCount = (int)data.Tables [0].Rows [0] [0];
 				JObjAccountRegisterRet retObj = new JObjAccountRegisterRet();
-				if (reusltCount == 0)
+				try
 				{
-					string resultMssage = "";
-					bool inserResult = sqlite.DoSql(
-						string.Format("INSERT into  {0}  ( user_account, user_code, user_email)  VALUES( ' {1}' , '{2}' , '{3}' );",
-							"user_info", 
-							accountRegisterObj._strAccount, 
-							accountRegisterObj._strCode, 
-							accountRegisterObj._strEmailAddress),  ref resultMssage);
-					JLog.Info ("resultMssage");
-					if (inserResult)
-						retObj.Result = JObjAccountRegisterRet.AccountRegisterResultType.successed;
+					if (reusltCount == 0)
+					{
+						string resultMssage = "";
+						bool inserResult = sqlite.DoSql(
+							string.Format("INSERT into  {0}  ( user_account, user_code, user_email)  VALUES( ' {1}' , '{2}' , '{3}' );",
+								"user_info", 
+								accountRegisterObj._strAccount, 
+								accountRegisterObj._strCode, 
+								accountRegisterObj._strEmailAddress),  ref resultMssage);
+						JLog.Info ("resultMssage");
+						if (inserResult)
+							retObj.Result = JObjAccountRegisterRet.AccountRegisterResultType.successed;
+						else
+							retObj.Result = JObjAccountRegisterRet.AccountRegisterResultType.failed;
+					}
 					else
-						retObj.Result = JObjAccountRegisterRet.AccountRegisterResultType.failed;
+					{
+						retObj.Result = JObjAccountRegisterRet.AccountRegisterResultType.accountRepeated;
+					}
 				}
-				else
-				{
-					retObj.Result = JObjAccountRegisterRet.AccountRegisterResultType.accountRepeated;
+				catch(Exception e) {
+					JLog.Error (e.Message);
+				}
+				finally {
+					sqlite.Close ();
 				}
 
 				try {
