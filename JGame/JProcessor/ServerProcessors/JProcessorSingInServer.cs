@@ -5,10 +5,10 @@ namespace JGame
 	using Data;
 	using StreamObject;
 	using Network;
-	namespace Processer
+	namespace Processor
 	{
 		
-		public class JProcesserSignInServer :  IProcesser
+		public class JProcesserSignInServer :  IProcessor
 		{
 			public void run(IDataSet dataSet)
 			{

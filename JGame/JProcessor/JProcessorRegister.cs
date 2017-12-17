@@ -5,7 +5,7 @@ namespace JGame
 	using Logic;
 	using JGame.Data;
 
-	namespace Processer
+	namespace Processor
 	{
 		public static class JProcessorRegister
 		{

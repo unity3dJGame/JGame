@@ -8,10 +8,10 @@ namespace JGame
 	using Network;
 	using Data;
 
-	namespace Processer
+	namespace Processor
 	{
 
-		public interface IProcesser 
+		public interface IProcessor 
 		{
 			void run (IDataSet dataSet);
 		}
