@@ -47,7 +47,8 @@ namespace JGame.StreamObject
 			accountNotAllowed,
 			codeIsTooSimple,
 			aodeNotAllowed,
-			emailIsRegistered
+			emailIsRegistered,
+			failed
 		}
 
 		public ushort Type ()

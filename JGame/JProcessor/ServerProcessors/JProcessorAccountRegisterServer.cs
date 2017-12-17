@@ -39,12 +39,14 @@ namespace JGame
 				JObjAccountRegisterRet retObj = new JObjAccountRegisterRet();
 				if (reusltCount == 0)
 				{
+					string resultMssage = "";
 					bool inserResult = sqlite.DoSql(
 						string.Format("INSERT into  {0}  ( user_account, user_code, user_email)  VALUES( ' {1}' , '{2}' , '{3}' );",
 							"user_info", 
 							accountRegisterObj._strAccount, 
 							accountRegisterObj._strCode, 
-							accountRegisterObj._strEmailAddress));
+							accountRegisterObj._strEmailAddress),  ref resultMssage);
+					JLog.Info ("resultMssage");
 					if (inserResult)
 						retObj.Result = JObjAccountRegisterRet.AccountRegisterResultType.successed;
 					else
