@@ -19,8 +19,6 @@ using UnityEngine.SceneManagement;
 
 public class JProcesserSignIn :  MonoBehaviour
 {
-	public Text _user_account;		//用户账号
-	public  Text _user_code;			//用户密码
 	public Slider _progress = null; //进度条
 	public Text _progress_text = null;//进度条文字
 

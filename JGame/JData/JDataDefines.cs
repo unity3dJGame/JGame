@@ -15,6 +15,11 @@ namespace JGame.Data
 		[Description("登录返回包")]
 		npt_signin_ret,
 
+		[Description("登录请求包")]
+		npt_accountRegister_req,
+		[Description("登录返回包")]
+		npt_accountRegister_ret,
+
 		[Description("Packet type max define")]
 		npt_max
 	};

@@ -18,8 +18,8 @@ using JGame.Logic;
 public class SignInNet : MonoBehaviour {
 	public Text _user_account;		//用户账号
 	public Text _user_code;			//用户密码
-	public Slider _progress = null; //进度条
-	public Text _progress_text = null;//进度条文字
+	public Canvas SignInPage;
+	public Canvas RegisterPage;
 
 	private static string _server_ip = "127.0.0.1";
 	private static int	  _server_port = 9796;	
@@ -46,12 +46,19 @@ public class SignInNet : MonoBehaviour {
 	}
 
 	//注册
-	public void Test_registerUser()
+	public void ToRegister()
 	{
-		JObj_SignRet obj = new JObj_SignRet();
-		obj.Result = true;
-		JLocalDataHelper.addData (JPacketType.npt_signin_ret, obj);
+		//JObj_SignRet obj = new JObj_SignRet();
+		//obj.Result = true;
+		//JLocalDataHelper.addData (JPacketType.npt_signin_ret, obj);
+		SignInPage.gameObject.SetActive(false);
+		RegisterPage.gameObject.SetActive (true);
+	}
 
+	public void ToSignIn ()
+	{
+		RegisterPage.gameObject.SetActive (false);
+		SignInPage.gameObject.SetActive(true);
 	}
 
 	public bool SendToServer(JObj_SignIn obj)
@@ -85,39 +92,4 @@ public class SignInNet : MonoBehaviour {
 
 		return true;
 	}
-
-
-	// Use this for sign in
-	public void SignIn () {
-		Debug.Log ("start game button is clicked.");
-
-		/*if (!Check (user_account.text, user_code.text)) {
-			Debug.Log ("user name or code is not right.");
-			return;
-		}*/
-
-		StartCoroutine (SwitchScene ("select_player"));
-
-		Debug.Log ("Welcome!");
-	}
-		
-	public  IEnumerator SwitchScene (string strSceneName)
-	{
-		AsyncOperation aop = SceneManager.LoadSceneAsync (strSceneName);
-		//aop.allowSceneActivation = false;
-
-		_progress.gameObject.SetActive (true);
-
-		while (aop.progress < 1.0f) {
-			_progress.value = aop.progress;
-			_progress_text.text = (aop.progress*100).ToString()+"%";
-			yield return new WaitForEndOfFrame ();
-		}
-
-		_progress.GetComponent<Slider> ().value = 1.0f;
-		//aop.allowSceneActivation = true;
-
-		//yield retun aop;
-	}
-
 }
