@@ -92,6 +92,7 @@ namespace JGame
 
 				try
 				{
+					JLog.Debug("ReceiveData JNetworkInteractiveData.ReceivedData.Data.count : "+JNetworkInteractiveData.ReceivedData.Data.Count.ToString(), JGame.Log.JLogCategory.Network);
 					lock (_receiveLocker)
 					{
 						JNetworkInteractiveData.ReceivedData.Data.Enqueue(networkData);
