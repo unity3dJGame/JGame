@@ -4,7 +4,7 @@ using System.Threading;
 namespace JGame
 {
 	using JGame.Network;
-	using JGame.Processer;
+	using JGame.Processor;
 	using JGame.Data;
 
 	namespace Logic
@@ -14,7 +14,7 @@ namespace JGame
 			public static bool IsServer = false;
 			private static ReaderWriterLockSlim _readerWriteLocker = new ReaderWriterLockSlim();
 
-			public static bool registerProcessor(JPacketType packetType, IProcesser processor, bool isServerProcessor = false)
+			public static bool registerProcessor(JPacketType packetType, IProcessor processor, bool isServerProcessor = false)
 			{
 				if (IsServer && !isServerProcessor || !IsServer && isServerProcessor)
 					return true;
@@ -42,16 +42,16 @@ namespace JGame
 				return bSuccess;
 			}
 
-			public static IProcesser getProcessor(JPacketType packetType)
+			public static IProcessor getProcessor(JPacketType packetType)
 			{
-				IProcesser processor = null;
+				IProcessor processor = null;
 				try
 				{
 					_readerWriteLocker.EnterReadLock ();
 
 					if (JLogicRegisteredProcessors.processors.PacketTypeToProcessor.ContainsKey(packetType))
 					{
-						processor = (IProcesser)JLogicRegisteredProcessors.processors.PacketTypeToProcessor[packetType];
+						processor = (IProcessor)JLogicRegisteredProcessors.processors.PacketTypeToProcessor[packetType];
 					}
 				}
 				catch (Exception e) {

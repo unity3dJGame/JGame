@@ -11,7 +11,7 @@ using JGame.Network;
 using JGame.Data;
 using JGame.Logic;
 using JGame.Data;
-using JGame.Processer;
+using JGame.Processor;
 using JGame.Log;
 using UnityEngine;
 using UnityEngine.UI;
@@ -58,7 +58,7 @@ public class JProcesserSignIn :  MonoBehaviour
 
 
 
-	public class JInnerProcesserSignIn : IProcesser
+	public class JInnerProcesserSignIn : IProcessor
 	{
 
 		protected JInnerProcesserSignIn() {}
