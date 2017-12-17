@@ -197,6 +197,7 @@ namespace JGame.DB
 				DataSet ds = new DataSet();  
 				try  
 				{  
+					JLog.Debug(sqlString);
 					MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(sqlString,_mysql_connection);  
 					mySqlDataAdapter.Fill(ds);  
 				}  

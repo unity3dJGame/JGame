@@ -31,15 +31,24 @@ namespace JGame
 					accountRegisterObj._strAccount,
 					accountRegisterObj._strEmailAddress));
 
-				if (null == data || null == data.Tables)
-					return;
-				if (data.Tables.Count <= 0 || data.Tables [0].Rows.Count <= 0)
-					return;
-				int reusltCount = (int)data.Tables [0].Rows [0] [0];
+				bool bAreadyExisted = false;
+				do
+				{
+					if (null == data || null == data.Tables)
+						break;
+					if (data.Tables.Count <= 0 || data.Tables [0].Rows.Count <= 0)
+						break;
+					if (null == data.Tables[0].Rows || data.Tables[0].Rows.Count <= 0)
+						break;
+					if (int.Parse(data.Tables[0].Rows[0][0].ToString()) == 1)
+						bAreadyExisted = true;
+				}
+				while(false);
+
 				JObjAccountRegisterRet retObj = new JObjAccountRegisterRet();
 				try
 				{
-					if (reusltCount == 0)
+					if (!bAreadyExisted)
 					{
 						string resultMssage = "";
 						bool inserResult = sqlite.DoSql(

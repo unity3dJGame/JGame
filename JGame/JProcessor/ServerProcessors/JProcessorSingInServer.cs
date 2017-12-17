@@ -31,24 +31,25 @@ namespace JGame
 					return;
 
 				DataSet data = sqlite.Select (string.Format(
-					@"Select count(1) from user_info t where t.user_account = '{0}' and t.user_code = '{1}'" ,
+					@"Select * from user_info t where t.user_account = '{0}' and t.user_code = '{1}'" ,
 					signInObj._strAccount,
 					signInObj._strCode));
 
-				if (null == data || null == data.Tables)
-					return;
-				if (data.Tables.Count <= 0 || data.Tables [0].Rows.Count <= 0)
-					return;
-				int reusltCount = (int)data.Tables [0].Rows [0] [0];
+				bool bSuccess = false;
+				do
+				{
+					if (null == data || null == data.Tables)
+						break;
+					if (data.Tables.Count <= 0 || data.Tables [0].Rows.Count <= 0)
+						break;
+					if (null == data.Tables[0].Rows || data.Tables[0].Rows.Count <= 0)
+						break;
+					if (data.Tables[0].Rows.Count > 0)
+						bSuccess = true;
+				}
+				while(false);
 
-				if (reusltCount > 0) 
-				{
-					resultObj.Result = true;
-				}
-				else
-				{
-					resultObj.Result = false;
-				}
+				resultObj.Result = bSuccess;
 
 				try {
 					JNetworkDataOperator.SendData (JPacketType.npt_signin_ret, resultObj);
