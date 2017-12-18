@@ -28,22 +28,28 @@ public class AccountRegister :  MonoBehaviour
 
 	// Use this for sign in
 	public void ShowRegisterRet (JObjAccountRegisterRet.AccountRegisterResultType type) {
-		Debug.Log ("Register result:" + type.ToString());
 		JLog.Info ("Register result:" + type.ToString (), JLogCategory.Common);
-		//StartCoroutine( SwitchScene ("select_player"));
-		//ToDo:show register result on main menu
 		switch (type) {
+		case JObjAccountRegisterRet.AccountRegisterResultType.failed:
+			UnityEditor.EditorUtility.DisplayDialog("注册", "注册失败！", "确认");
+			break;
 		case JObjAccountRegisterRet.AccountRegisterResultType.accountNotAllowed:
+			UnityEditor.EditorUtility.DisplayDialog("注册", "账号不合法！", "确认");
 			break;
 		case JObjAccountRegisterRet.AccountRegisterResultType.accountRepeated:
+			UnityEditor.EditorUtility.DisplayDialog("注册", "账号已被占用！", "确认");
 			break;
-		case JObjAccountRegisterRet.AccountRegisterResultType.aodeNotAllowed:
+		case JObjAccountRegisterRet.AccountRegisterResultType.codeNotAllowed:
+			UnityEditor.EditorUtility.DisplayDialog("注册", "密码不合法！", "确认");
 			break;
 		case JObjAccountRegisterRet.AccountRegisterResultType.codeIsTooSimple:
+			UnityEditor.EditorUtility.DisplayDialog("注册", "密码设置太过简单！", "确认");
 			break;	
 		case JObjAccountRegisterRet.AccountRegisterResultType.emailIsRegistered:
+			UnityEditor.EditorUtility.DisplayDialog("注册", "邮箱已被占用", "确认");
 			break;
 		case JObjAccountRegisterRet.AccountRegisterResultType.successed:
+			UnityEditor.EditorUtility.DisplayDialog("注册", "注册成功！", "确认");
 			break;
 		}
 	}

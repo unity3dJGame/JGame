@@ -46,7 +46,7 @@ namespace JGame.StreamObject
 			accountRepeated ,
 			accountNotAllowed,
 			codeIsTooSimple,
-			aodeNotAllowed,
+			codeNotAllowed,
 			emailIsRegistered,
 			failed
 		}
