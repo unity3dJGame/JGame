@@ -86,6 +86,14 @@ namespace JGame
 				
 			public static void ReceiveData(int len, byte[] data, EndPoint remoteEndPoint)
 			{
+				IPEndPoint endPoint = remoteEndPoint as IPEndPoint;
+				if (null == endPoint)
+					return;
+
+				ReceiveData (len, data, endPoint);
+			}
+			public static void ReceiveData(int len, byte[] data, IPEndPoint remoteEndPoint)
+			{
 				JNetworkData networkData = new JNetworkData();
 				networkData.Len = len;
 				networkData.Data = data;

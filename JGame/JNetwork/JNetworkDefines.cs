@@ -20,7 +20,7 @@ namespace JGame.Network
 		public int 			Len;
 		public byte[] 		Data;
 		//public EndPoint		LocalEndPoint;
-		public EndPoint 	RemoteEndPoint;
+		public IPEndPoint 	RemoteEndPoint;
 	}
 
 	public class JNetworkDataQueue

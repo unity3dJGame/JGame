@@ -29,7 +29,7 @@ public class AccountRegister :  MonoBehaviour
 	// Use this for sign in
 	public void ShowRegisterRet (JObjAccountRegisterRet.AccountRegisterResultType type) {
 		JLog.Info ("Register result:" + type.ToString (), JLogCategory.Common);
-		switch (type) {
+		/*switch (type) {
 		case JObjAccountRegisterRet.AccountRegisterResultType.failed:
 			UnityEditor.EditorUtility.DisplayDialog("注册", "注册失败！", "确认");
 			break;
@@ -51,7 +51,7 @@ public class AccountRegister :  MonoBehaviour
 		case JObjAccountRegisterRet.AccountRegisterResultType.successed:
 			UnityEditor.EditorUtility.DisplayDialog("注册", "注册成功！", "确认");
 			break;
-		}
+		}*/
 	}
 }
 

@@ -52,7 +52,7 @@ namespace JGame
 				if (null == processor)
 					return;
 
-				processor.run (JLogicUserData.Data);
+				processor.run (JLogicUserData.getData(data.RemoteEndPoint));
 			}
 
 			public static void ProcessLocalData(JPacketType data)
@@ -61,7 +61,7 @@ namespace JGame
 				if (null == processor)
 					return;
 
-				processor.run (JLogicUserData.Data);
+				processor.run (JLogicUserData.getLocalData());
 			}
 
 			public static void DeSerialize(List<JNetworkData> dataList)
@@ -76,7 +76,7 @@ namespace JGame
 						if (null == obj)
 							continue;
 						
-						JLogicUserData.Data.setData (obj);
+						JLogicUserData.setData (data.RemoteEndPoint,  obj);
 					}
 				}
 			}

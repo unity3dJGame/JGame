@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using System.Net;
 
 namespace JGame
 {
@@ -21,6 +22,11 @@ namespace JGame
 			/// Gets the data.
 			/// </summary>
 			IStreamObj  getData(JObjectType type) ;
+
+			IPEndPoint  EndPoint {
+				get;
+				set;
+			}
 		}
 
 		public class UserData:IDataSet
@@ -62,6 +68,11 @@ namespace JGame
 					_lock.ReleaseReaderLock ();
 				}
 				return obj;
+			}
+
+			public IPEndPoint EndPoint {
+				get;
+				set;
 			}
 		}
 	}

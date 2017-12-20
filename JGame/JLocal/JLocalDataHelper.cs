@@ -22,7 +22,7 @@ namespace JGame
 			{
 				try
 				{
-					JLogicUserData.Data.setData (obj);
+					JLogicUserData.setLocalData (obj);
 					lock (_locker)
 					{
 						JLocalDataProcessors.Data.Enqueue (type);
