@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Sockets;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -156,6 +157,19 @@ namespace JGame
 				} else {
 					return false;
 				}
+			}
+
+			public static bool IsSameEndpoint(IPEndPoint endPoint1, IPEndPoint endPoint2)
+			{
+				if (null == endPoint1 || null == endPoint2)
+					return false;
+
+				if (endPoint1.Address.ToString () == endPoint2.ToString () &&
+					endPoint1.Port == endPoint2.Port) {
+					return true;
+				}
+
+				return false;
 			}
 		}//class JNetworkHelper
 	}//namespace Network

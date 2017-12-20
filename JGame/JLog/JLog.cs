@@ -35,6 +35,10 @@ namespace JGame
 
 			JLogThread.Initialize ();
 		}
+		public static void ShutDown()
+		{
+			JLogThread.ShutDown ();
+		}
 
 		public static void Debug(string log, JLogCategory logCat= JLogCategory.Common)
 		{

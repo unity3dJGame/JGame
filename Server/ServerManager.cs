@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 using JGame;
@@ -10,6 +11,7 @@ public class ServerManager : MonoBehaviour
 	public Text ServerPort;
 
 	public static bool ServerActive = false;
+	public static Thread ServerLogic = null;
 
 	public void StartServer ()
 	{
@@ -26,6 +28,9 @@ public class ServerManager : MonoBehaviour
 		JGameManager.SingleInstance.initialize (true, ServerIP.text, int.Parse (ServerPort.text));
 		ServerActive = true;
 		Debug.Log ("initialize finished");
+
+		/*ServerLogic = new Thread (JLogic.Logic);
+		ServerLogic.Start ();*/
 	}
 		
 	void Start()

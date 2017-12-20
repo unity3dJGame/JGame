@@ -286,13 +286,18 @@ namespace JGame.Network
 					lock (_socketLocker) {
 						foreach ( Socket socket in JConnectedClientSocket.sockets)
 						{
-							try
-							{
-								socket.Send (data.Data);
-								JLog.Info("send one data to "+(socket.RemoteEndPoint as IPEndPoint).Address.ToString(), JGame.Log.JLogCategory.Network);
-							}
-							catch(Exception e) {
-								JLog.Error ("SendLoop error message:" + e.Message, JGame.Log.JLogCategory.Network);
+							if (null == socket || null == socket.RemoteEndPoint)
+								continue;
+							
+							if (JNetworkHelper.IsSameEndpoint (data.RemoteEndPoint as IPEndPoint, socket.RemoteEndPoint as IPEndPoint)) {
+								try
+								{
+									socket.Send (data.Data);
+									JLog.Info("send one data to "+(socket.RemoteEndPoint as IPEndPoint).Address.ToString(), JGame.Log.JLogCategory.Network);
+								}
+								catch(Exception e) {
+									JLog.Error ("SendLoop error message:" + e.Message, JGame.Log.JLogCategory.Network);
+								}						
 							}
 						}
 					}
