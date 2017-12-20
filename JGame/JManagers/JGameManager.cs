@@ -46,6 +46,7 @@ namespace JGame
 				JServerSocketManager.SingleInstance.ShutDown ();
 				JClientSocketManager.SingleInstance.ShutDown ();		
 				JLog.Info("JGameManager.ShutDown:Shut down server and client socket manager finished.", JLogCategory.Network);
+				JLog.ShutDown();
 			}
 			catch (Exception e) {
 				JLog.Error ("JGameManager.ShutDown:" + e.Message);

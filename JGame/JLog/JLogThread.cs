@@ -28,6 +28,13 @@ namespace JGame.Log
 			_inited = true;
 		}
 
+		public static void ShutDown()
+		{
+			if (null != _thread) {
+				_thread.Abort ();
+			}
+		}
+
 		public static void AddMessage(JLogMessage message)
 		{
 			try
