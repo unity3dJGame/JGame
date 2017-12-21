@@ -24,17 +24,53 @@ public class ServerManager : MonoBehaviour
 			return;
 		}
 
-		Debug.Log ("Server IP:" + ServerIP.text + "   ServerPort:" + ServerPort.text);
+		JLog.Info ("Server IP:" + ServerIP.text + "   ServerPort:" + ServerPort.text);
 		JGameManager.SingleInstance.initialize (true, ServerIP.text, int.Parse (ServerPort.text));
 		ServerActive = true;
-		Debug.Log ("initialize finished");
+		JLog.Info ("initialize finished");
 
-		/*ServerLogic = new Thread (JLogic.Logic);
-		ServerLogic.Start ();*/
+		try
+		{
+			ServerLogic = new Thread (Logic);
+			ServerLogic.Start ();
+			JLog.Info("ServerManager.StartServer logic thread start success.");
+		}
+		catch (Exception e) {
+			JLog.Error ("ServerManager.StartServer error message:"+e.Message);
+		}
+
 	}
+
 		
 	void Start()
 	{
+	}
+
+	private void Logic()
+	{
+		while (true) {
+			if (ServerActive == false)
+				break;
+			Thread.Sleep (10);
+			JLogic.Logic ();
+		}
+		JLog.Info("ServerManager.StartServer logic thread end.");
+	}
+
+
+	public static void ShutDown()
+	{
+		if (null != ServerLogic) {
+
+			try
+			{
+				ServerLogic.Abort ();
+				JLog.Info("ServerManager.StartServer logic thread abort.");
+			}
+			catch (Exception e) {
+				JLog.Error ("ServerManager.StartServer error message:"+e.Message);
+			}
+		}
 	}
 }
 

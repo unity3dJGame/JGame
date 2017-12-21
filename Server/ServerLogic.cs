@@ -12,7 +12,7 @@ public class ServerLogic : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (ServerManager.ServerActive)
-			JLogic.Logic ();
+		/*if (ServerManager.ServerActive)
+			JLogic.Logic ();*/
 	}
 }

@@ -203,7 +203,7 @@ namespace JGame
 				if (null == endPoint1 || null == endPoint2)
 					return false;
 
-				if (endPoint1.Address.ToString () == endPoint2.ToString () &&
+				if (endPoint1.Address.ToString () == endPoint2.Address.ToString () &&
 					endPoint1.Port == endPoint2.Port) {
 					return true;
 				}
