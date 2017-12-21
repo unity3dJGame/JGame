@@ -21,7 +21,7 @@ namespace JGame
 
 				string account = signInObj._strAccount;
 				string code = signInObj._strCode;
-				JLog.Info("receive npt_signin_req packet from client: account:"+account+"  code:"+code, JGame.Log.JLogCategory.Network);
+				JLog.Info("JProcesserSignInServer.run receive npt_signin_req packet from client: account:"+account+"  code:"+code, JGame.Log.JLogCategory.Network);
 
 				JObj_SignRet resultObj = new JObj_SignRet ();
 				JMySqlAccess sqlite = new JMySqlAccess ("mysql", "127.0.0.1", "root", "684268");
@@ -52,8 +52,8 @@ namespace JGame
 				resultObj.Result = bSuccess;
 
 				try {
-					JNetworkDataOperator.SendData (JPacketType.npt_signin_ret, resultObj, dataSet.EndPoint);
-					JLog.Info("send npt_signin_ret packet to client", JGame.Log.JLogCategory.Network);
+					JNetworkDataOperator.SendData (JPacketType.npt_signin_ret, resultObj);
+					JLog.Info("JProcesserSignInServer.run send npt_signin_ret packet to client", JGame.Log.JLogCategory.Network);
 					return;
 				} catch (Exception e) {
 					JLog.Debug ("发送数据失败");
