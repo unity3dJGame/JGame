@@ -30,7 +30,7 @@ namespace JGame.Processor
 		protected bool SendToServer(JObjAccountRegisterReq obj)
 		{
 			try {
-				JNetworkDataOperator.SendData(JPacketType.npt_accountRegister_req, obj);
+				JNetworkDataOperator.SendDataToServer(JPacketType.npt_accountRegister_req, 	obj);
 				return true;
 			} catch (Exception e) {
 				JLog.Debug ("发送数据失败");

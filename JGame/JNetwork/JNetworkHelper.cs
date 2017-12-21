@@ -9,7 +9,6 @@ namespace JGame
 {
 	using JGame.StreamObject;
 	using JGame.Data;
-
 	namespace Network
 	{
 		using JGame.Network.Setting;
@@ -20,34 +19,66 @@ namespace JGame
 			private static Semaphore _sendSemaphore = new Semaphore(0,1);
 			private static object _receiveLocker = new object ();
 			private static Semaphore _receivedSemaphore = new Semaphore (0, 1);
-
-			internal static void SendData (byte [] data)
+			IPEndPoint a;
+			internal static void SendData(byte [] data, IPEndPoint endPoint)
 			{
 				JNetworkData newData = new JNetworkData();
 				newData.Data = data;
-				newData.RemoteEndPoint = new  IPEndPoint(IPAddress.Parse(JNetworkServerInfo.ServerIP), JNetworkServerInfo.ServerPort);
+				newData.RemoteEndPoint = endPoint;//new  IPEndPoint(IPAddress.Parse(JNetworkServerInfo.ServerIP), JNetworkServerInfo.ServerPort);
 				lock (_sendLocker) {
 					JNetworkInteractiveData.SendData.Data.Enqueue (newData);
 					_sendSemaphore.Release ();
 				}
 				JLog.Debug("JNetworkDataOperator.SendData[byte [] data] : send one data.", JGame.Log.JLogCategory.Network);
 			}
-			public static void SendData(JPacketType packetType,  List<IStreamObj> objects)
+			internal static void SendDataToServer(byte [] data)
+			{
+				SendData (data, JServerSocket.socket.RemoteEndPoint as IPEndPoint);
+			}
+
+			public static void SendData(
+				JPacketType packetType,
+				List<IStreamObj> objects,
+				IPEndPoint endPoint)
 			{
 				JOutputStream jstream = new JOutputStream ();
 				jstream.Writer.Write ((ushort)packetType);
 				foreach(var obj in objects)
 					JBinaryReaderWriter.Write (ref jstream, obj);
 
-				SendData (jstream.ToArray ());
+				SendData (jstream.ToArray (), endPoint);
 			}
-			public static void SendData(JPacketType packetType,  IStreamObj streamObject)
+			public static void SendDataToServer(
+				JPacketType packetType,
+				List<IStreamObj> objects)
+			{
+				JOutputStream jstream = new JOutputStream ();
+				jstream.Writer.Write ((ushort)packetType);
+				foreach(var obj in objects)
+					JBinaryReaderWriter.Write (ref jstream, obj);
+
+				SendData (jstream.ToArray (), JServerSocket.socket.RemoteEndPoint as IPEndPoint);
+			}
+			public static void SendData(
+				JPacketType packetType,  
+				IStreamObj streamObject, 
+				IPEndPoint endPoint)
 			{
 				JOutputStream jstream = new JOutputStream ();
 				jstream.Writer.Write ((ushort)packetType);
 				JBinaryReaderWriter.Write (ref jstream, streamObject);
 
-				SendData (jstream.ToArray ());
+				SendData (jstream.ToArray (), endPoint);
+			}
+			public static void SendDataToServer(
+				JPacketType packetType,  
+				IStreamObj streamObject)
+			{
+				JOutputStream jstream = new JOutputStream ();
+				jstream.Writer.Write ((ushort)packetType);
+				JBinaryReaderWriter.Write (ref jstream, streamObject);
+
+				SendData (jstream.ToArray (), JServerSocket.socket.RemoteEndPoint as IPEndPoint);
 			}
 
 			/// <summary>

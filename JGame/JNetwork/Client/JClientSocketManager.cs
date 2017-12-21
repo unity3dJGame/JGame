@@ -70,7 +70,7 @@ namespace JGame.Network
 
 		public void SendData(byte[] data)
 		{
-			JNetworkDataOperator.SendData ( data);
+			JNetworkDataOperator.SendData ( data, JServerSocket.socket.RemoteEndPoint as IPEndPoint);
 		}
 	}
 }

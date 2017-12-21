@@ -52,7 +52,7 @@ namespace JGame
 				resultObj.Result = bSuccess;
 
 				try {
-					JNetworkDataOperator.SendData (JPacketType.npt_signin_ret, resultObj);
+					JNetworkDataOperator.SendData (JPacketType.npt_signin_ret, resultObj, dataSet.EndPoint);
 					JLog.Info("send npt_signin_ret packet to client", JGame.Log.JLogCategory.Network);
 					return;
 				} catch (Exception e) {

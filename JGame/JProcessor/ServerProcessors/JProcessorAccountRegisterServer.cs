@@ -76,7 +76,7 @@ namespace JGame
 				}
 
 				try {
-					JNetworkDataOperator.SendData (JPacketType.npt_accountRegister_ret, retObj);
+					JNetworkDataOperator.SendData (JPacketType.npt_accountRegister_ret, retObj, dataSet.EndPoint);
 					JLog.Info("send npt_accountRegister_ret packet to client", JGame.Log.JLogCategory.Network);
 					return;
 				} catch (Exception e) {
