@@ -33,7 +33,7 @@ namespace JGame
 			}
 			internal static void SendDataToServer(byte [] data)
 			{
-				SendData (data, JServerSocket.socket.RemoteEndPoint as IPEndPoint);
+				SendData (data, JClientSocket.socket.RemoteEndPoint as IPEndPoint);
 			}
 
 			public static void SendData(
@@ -57,7 +57,7 @@ namespace JGame
 				foreach(var obj in objects)
 					JBinaryReaderWriter.Write (ref jstream, obj);
 
-				SendData (jstream.ToArray (), JServerSocket.socket.RemoteEndPoint as IPEndPoint);
+				SendData (jstream.ToArray (), JClientSocket.socket.RemoteEndPoint as IPEndPoint);
 			}
 			public static void SendData(
 				JPacketType packetType,  
@@ -78,7 +78,7 @@ namespace JGame
 				jstream.Writer.Write ((ushort)packetType);
 				JBinaryReaderWriter.Write (ref jstream, streamObject);
 
-				SendData (jstream.ToArray (), JServerSocket.socket.RemoteEndPoint as IPEndPoint);
+				SendData (jstream.ToArray (), JClientSocket.socket.RemoteEndPoint as IPEndPoint);
 			}
 
 			/// <summary>
