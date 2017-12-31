@@ -40,7 +40,7 @@ namespace JGame
 				{
 					if (null == data || null == data.Tables)
 						break;
-					if (data.Tables.Count <= 0 || data.Tables [0].Rows.Count <= 0)
+					if (data.Tables.Count <= 0 )
 						break;
 					if (null == data.Tables[0].Rows || data.Tables[0].Rows.Count <= 0)
 						break;
@@ -48,8 +48,40 @@ namespace JGame
 						bSuccess = true;
 				}
 				while(false);
-
 				resultObj.Result = bSuccess;
+
+				string[] items 		= 	new string[] { "role_name", "role_type", "role_level", "x", "y", "z", "x_rotation", "y_rotation", "z_rotation"};
+				string[] where_cols =	new string[] {"user_account"};
+				string[] operation 	= 	new string[] {"="};
+				string[] values 	= 	new string[] {signInObj._strAccount};
+
+				DataSet roleInfo = sqlite.Select ("role_info", items, where_cols, operation, values);
+				do
+				{
+					if (null == roleInfo || null == roleInfo.Tables)
+						break;
+					if (roleInfo.Tables.Count <= 0)
+						break;
+					if (null == roleInfo.Tables[0].Rows || roleInfo.Tables[0].Rows.Count <= 0)
+						break;
+					if (roleInfo.Tables [0].Rows.Count > 0) {
+						resultObj.RolesInfo = new System.Collections.Generic.List<JObjRoleInfo> ();
+						foreach (DataRow dataRow in roleInfo.Tables[0].Rows) {
+							JObjRoleInfo role = new JObjRoleInfo ();
+							role.roleName = dataRow [0].ToString ();
+							role.roleType = int.Parse (dataRow [1].ToString ());
+							role.roleLevel = int.Parse (dataRow [2].ToString ());
+							role.x = double.Parse (dataRow [3].ToString ());
+							role.y = double.Parse (dataRow [4].ToString ());
+							role.z = double.Parse (dataRow [5].ToString ());
+							role.rotatex = double.Parse (dataRow [6].ToString ());
+							role.rotatey = double.Parse (dataRow [7].ToString ());
+							role.rotatez = double.Parse (dataRow [8].ToString ());
+							resultObj.RolesInfo.Add (role);
+						}
+					}
+				}
+				while(false);
 
 				try {
 					JNetworkDataOperator.SendData (JPacketType.npt_signin_ret, resultObj, dataSet.EndPoint);

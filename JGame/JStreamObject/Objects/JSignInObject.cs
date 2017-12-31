@@ -38,7 +38,7 @@ namespace JGame.StreamObject
 	{
 		public string roleName;
 		public int roleType;
-		public string roleLevel;
+		public int roleLevel;
 		public double x;
 		public double y;
 		public double z;
@@ -50,11 +50,12 @@ namespace JGame.StreamObject
 		{
 			return (ushort)JObjectType.role_info;
 		}
+
 		public void Read (ref JInputStream stream)
 		{
 			roleName = JBinaryReaderWriter.Read<string> (stream);
 			roleType = JBinaryReaderWriter.Read<int> (stream);
-			roleLevel = JBinaryReaderWriter.Read<string> (stream);
+			roleLevel = JBinaryReaderWriter.Read<int> (stream);
 			x = JBinaryReaderWriter.Read<double> (stream);
 			y = JBinaryReaderWriter.Read<double> (stream);
 			z = JBinaryReaderWriter.Read<double> (stream);
@@ -62,6 +63,7 @@ namespace JGame.StreamObject
 			rotatey = JBinaryReaderWriter.Read<double> (stream);
 			rotatez = JBinaryReaderWriter.Read<double> (stream);
 		}
+
 		public void Write (ref JOutputStream stream)
 		{ 
 			if (null == stream)
@@ -91,17 +93,12 @@ namespace JGame.StreamObject
 		}
 		public void Read (ref JInputStream stream)
 		{
+			RolesInfo = new List<JObjRoleInfo>();
 			Result = JBinaryReaderWriter.Read<bool> (stream);
-			JBinaryReaderWriter.Read(ref stream, Type());
-			JBinaryReaderWriter.Read (ref stream, Result);
-			/*if (null == RolesInfo) {
-				JBinaryReaderWriter.Read (ref stream, (int)0);
-			} else {
-				JBinaryReaderWriter.Read (ref stream, RolesInfo.Count);
-				foreach (JObjRoleInfo roleInfo in RolesInfo) {
-					JBinaryReaderWriter.Read<JObjRoleInfo> (ref stream);
-				}
-			}*/
+			int count = JBinaryReaderWriter.Read<int> (stream);
+			for (int i = 0; i < count; i++) {
+				RolesInfo.Add(JBinaryReaderWriter.Read<JObjRoleInfo> (stream));
+			}
 		}
 		public void Write (ref JOutputStream stream)
 		{ 
