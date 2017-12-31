@@ -36,7 +36,7 @@ namespace JGame
 				{
 					if (null == data || null == data.Tables)
 						break;
-					if (data.Tables.Count <= 0 || data.Tables [0].Rows.Count <= 0)
+					if (data.Tables.Count <= 0 )
 						break;
 					if (null == data.Tables[0].Rows || data.Tables[0].Rows.Count <= 0)
 						break;

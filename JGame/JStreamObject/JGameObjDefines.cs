@@ -21,10 +21,23 @@ namespace JGame.StreamObject
 		[Description("sign in return")]
 		sign_in_ret,	//登录包
 
+		[Description("role information")]
+		role_info,
+
 		[Description("account register require")]
 		account_register,	//注册用户包
 		[Description("account register retrun")]
 		account_register_ret,	//登录包
+
+		[Description("create new role require")]
+		create_role,	//创建新角色
+		[Description("create new role retrun")]
+		create_role_ret,	//登录包
+
+		[Description("role sign in require")]
+		role_sign_in,	//创建新角色
+		[Description("role sign in return")]
+		role_sign_in_ret,	//登录包
 
 		[Description("end of object types")]
 		hot_end
