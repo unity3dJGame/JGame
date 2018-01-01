@@ -30,7 +30,7 @@ public class SignInNet : MonoBehaviour {
 
 	}
 	void Update(){
-		JLogic.Logic ();
+	//	JLogic.Logic ();
 	}
 
 	//登录检查

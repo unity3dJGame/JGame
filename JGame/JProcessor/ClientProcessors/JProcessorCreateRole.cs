@@ -5,6 +5,7 @@ namespace JGame.Processor
 	using JGame.Data;
 	using JGame.StreamObject;
 	using JGame.Network;
+	using JGame.Logic;
 
 	public class JProcessorCreateRole : IProcessor
 	{
@@ -23,6 +24,7 @@ namespace JGame.Processor
 
 			try {
 				JNetworkDataOperator.SendDataToServer (JPacketType.pt_createRole_req, createRoleReqObj);
+				JLogicUserData.setLocalData(createRoleReqObj);
 			} catch (Exception e) {
 				JLog.Debug ("JProcessorCreateRole 发送数据失败");
 				JLog.Error ("JProcessorCreateRole 发送数据失败 "+e.Message);

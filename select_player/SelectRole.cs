@@ -73,6 +73,16 @@ public class SelectRole : MonoBehaviour {
 					}
 					else
 						MovingRoleInfo.Add (selectedObj, info);
+					
+					CreatePlayerUtil.Role = selectedObj;
+					foreach (var ro in CreatePlayerUtil.RoleModels)
+					{
+						if (ro.Value == selectedObj) 
+						{
+							CreatePlayerUtil.type = ro.Key;
+							break;
+						}
+					}
 				}
 			}
 		}

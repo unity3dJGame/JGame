@@ -55,9 +55,10 @@ namespace JGame.Processor
 			if ((obj as JObj_SignRet).Result == false)
 				JLog.Info ("Received JObj_SignRet but account and code is not registed!");
 			//todo:...remind to regist
-			else
-				if (null != toSignIn)
-					toSignIn ();
+			else if (null != toSignIn) {
+				JLogicUserData.setLocalData(obj);
+				toSignIn ();
+			}
 		}
 	}
 }

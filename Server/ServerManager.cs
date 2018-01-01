@@ -29,7 +29,7 @@ public class ServerManager : MonoBehaviour
 		ServerActive = true;
 		JLog.Info ("initialize finished");
 
-		try
+		/*try
 		{
 			ServerLogic = new Thread (Logic);
 			ServerLogic.Start ();
@@ -37,7 +37,7 @@ public class ServerManager : MonoBehaviour
 		}
 		catch (Exception e) {
 			JLog.Error ("ServerManager.StartServer error message:"+e.Message);
-		}
+		}*/
 
 	}
 
@@ -46,7 +46,7 @@ public class ServerManager : MonoBehaviour
 	{
 	}
 
-	private void Logic()
+	/*private void Logic()
 	{
 		while (true) {
 			if (ServerActive == false)
@@ -55,10 +55,10 @@ public class ServerManager : MonoBehaviour
 			JLogic.Logic ();
 		}
 		JLog.Info("ServerManager.StartServer logic thread end.");
-	}
+	}*/
 
 
-	public static void ShutDown()
+	/*public static void ShutDown()
 	{
 		if (null != ServerLogic) {
 
@@ -71,6 +71,6 @@ public class ServerManager : MonoBehaviour
 				JLog.Error ("ServerManager.StartServer error message:"+e.Message);
 			}
 		}
-	}
+	}*/
 }
 

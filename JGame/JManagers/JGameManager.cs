@@ -10,6 +10,7 @@ namespace JGame
 	using JGame.Logic;
 	using JGame.Network;
 	using JGame.Processor;
+	using JGame.Logic;
 
 	public class JGameManager
 	{
@@ -47,6 +48,7 @@ namespace JGame
 				JClientSocketManager.SingleInstance.ShutDown ();		
 				JLog.Info("JGameManager.ShutDown:Shut down server and client socket manager finished.", JLogCategory.Network);
 				JLog.ShutDown();
+				JLogicThread.ShutDown();
 			}
 			catch (Exception e) {
 				JLog.Error ("JGameManager.ShutDown:" + e.Message);
@@ -94,6 +96,9 @@ namespace JGame
 					JLog.Error (e.Message);
 				}
 			}
+
+			JLogicThread.Start ();
+
 
 			JLog.Debug ("JGameManager initialize finished .");
 		}
