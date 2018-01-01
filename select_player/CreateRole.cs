@@ -7,6 +7,7 @@ using JGame;
 using JGame.Network;
 using JGame.Data;
 using JGame.Log;
+using JGame.LocalData;
 using JGame.Logic;
 using JGame.Processor;
 
@@ -46,7 +47,7 @@ public class CreateRole : MonoBehaviour
 		obj.RoleName = RoleName.text;
 		obj.RoleType = CreatePlayerUtil.type;
 		try {
-			JNetworkDataOperator.SendDataToServer(JPacketType.pt_createRole_req, obj);
+			JLocalDataHelper.addData(JPacketType.pt_createRole_req, obj);
 			return;
 		} catch (Exception e) {
 			Debug.LogError ("发送数据失败");

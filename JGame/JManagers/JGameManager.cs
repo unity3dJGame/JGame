@@ -97,8 +97,8 @@ namespace JGame
 				}
 			}
 
-			JLogicThread.Start ();
-
+			if (bServer)
+				JLogicThread.Start ();
 
 			JLog.Debug ("JGameManager initialize finished .");
 		}

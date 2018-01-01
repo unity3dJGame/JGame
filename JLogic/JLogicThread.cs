@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace JGame.Logic
 {
-	public class JLogicThread
+	internal class JLogicThread
 	{
 		private static Thread _thread;
 		private static bool _shutdown = false;
@@ -18,9 +18,11 @@ namespace JGame.Logic
 
 		public static void ShutDown()
 		{
-			_shutdown = true;
-			Thread.Sleep (100);
-			_thread.Abort ();
+			if (null != _thread) {
+				_shutdown = true;
+				Thread.Sleep (100);
+				_thread.Abort ();
+			}
 		}
 
 	    private static void Logic()

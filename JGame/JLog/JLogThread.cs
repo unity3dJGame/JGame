@@ -8,6 +8,7 @@ namespace JGame.Log
 {
 	using JGame.Log.LogSettings;
 
+	//废弃
 	public class JLogThread
 	{
 		//private static Dictionary<string, StreamWriter> _writers;
