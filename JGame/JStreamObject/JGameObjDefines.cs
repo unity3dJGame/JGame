@@ -20,6 +20,8 @@ namespace JGame.StreamObject
 		sign_in,	//登录包
 		[Description("sign in return")]
 		sign_in_ret,	//登录包
+		[Description("sign in info")]
+		sign_in_info,	//登录信息包
 
 		[Description("role information")]
 		role_info,

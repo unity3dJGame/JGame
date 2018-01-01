@@ -20,6 +20,11 @@ namespace JGame.Data
 		[Description("账号注册返回包")]
 		npt_accountRegister_ret,
 
+		[Description("创建角色请求包")]
+		pt_createRole_req,
+		[Description("创建角色返回包")]
+		pt_createRole_ret,
+
 		[Description("Packet type max define")]
 		npt_max
 	};
