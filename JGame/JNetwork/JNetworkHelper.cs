@@ -16,9 +16,9 @@ namespace JGame
 		public class JNetworkDataOperator
 		{
 			private static object _sendLocker = new object();
-			private static Semaphore _sendSemaphore = new Semaphore(0,1);
+			private static Semaphore _sendSemaphore = new Semaphore(0,10000);
 			private static object _receiveLocker = new object ();
-			private static Semaphore _receivedSemaphore = new Semaphore (0, 1);
+			private static Semaphore _receivedSemaphore = new Semaphore (0, 1000);
 			IPEndPoint a;
 			internal static void SendData(byte [] data, IPEndPoint endPoint)
 			{
@@ -104,7 +104,8 @@ namespace JGame
 						while (JNetworkInteractiveData.SendData.Data.Count > 0)
 							listData.Add (JNetworkInteractiveData.SendData.Data.Dequeue ());
 					}						
-
+					_sendSemaphore = null;
+					_sendSemaphore = new Semaphore(0,10000);
 				}
 				catch (Exception e) {
 					JLog.Error ("TakeSendData:" + e.Message, JGame.Log.JLogCategory.Network);
@@ -160,7 +161,8 @@ namespace JGame
 						while (JNetworkInteractiveData.ReceivedData.Data.Count > 0)
 							listData.Add (JNetworkInteractiveData.ReceivedData.Data.Dequeue ());
 					}
-
+					_receivedSemaphore = null;
+					_receivedSemaphore = new Semaphore(0,10000);
 				}
 				catch (Exception e) {
 					JLog.Error ("TakeSendData:" + e.Message, JGame.Log.JLogCategory.Network);

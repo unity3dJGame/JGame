@@ -48,7 +48,7 @@ namespace JGame.StreamObject
 	public class JCreateRoleRetObject : IStreamObj
 	{
 		public CreateRoleResultType Result;
-		public string UserId;
+		public string UserId = "";
 
 		public enum CreateRoleResultType
 		{

@@ -24,6 +24,7 @@ public class AccountRegister :  MonoBehaviour
 		JProcessorAccountRegisterRet processor = new JProcessorAccountRegisterRet ();
 		processor.registerRetGot += ShowRegisterRet;
 		JLogicHelper.registerProcessor (JPacketType.npt_accountRegister_ret,  processor,false);
+		JLogicHelper.registerProcessor (JPacketType.pt_createRole_req, new JProcessorCreateRole (), false);
 	}
 
 	// Use this for sign in
