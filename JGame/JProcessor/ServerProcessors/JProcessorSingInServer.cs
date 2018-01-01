@@ -65,23 +65,39 @@ namespace JGame
 						break;
 					if (null == roleInfo.Tables[0].Rows || roleInfo.Tables[0].Rows.Count <= 0)
 						break;
-					if (roleInfo.Tables [0].Rows.Count > 0) {
-						resultObj.RolesInfo = new System.Collections.Generic.List<JObjRoleInfo> ();
-						foreach (DataRow dataRow in roleInfo.Tables[0].Rows) {
-							JObjRoleInfo role = new JObjRoleInfo ();
-							role.roleName = dataRow [0].ToString ();
-							role.roleType = int.Parse (dataRow [1].ToString ());
-							role.roleLevel = int.Parse (dataRow [2].ToString ());
-							role.x = double.Parse (dataRow [3].ToString ());
-							role.y = double.Parse (dataRow [4].ToString ());
-							role.z = double.Parse (dataRow [5].ToString ());
-							role.rotatex = double.Parse (dataRow [6].ToString ());
-							role.rotatey = double.Parse (dataRow [7].ToString ());
-							role.rotatez = double.Parse (dataRow [8].ToString ());
-							resultObj.RolesInfo.Add (role);
-							strAccount = dataRow[9].ToString();
+
+					try
+					{
+						if (roleInfo.Tables [0].Rows.Count > 0) {
+							resultObj.RolesInfo = new System.Collections.Generic.List<JObjRoleInfo> ();
+							foreach (DataRow dataRow in roleInfo.Tables[0].Rows) {
+								JObjRoleInfo role = new JObjRoleInfo ();
+								role.roleName = dataRow [0].ToString ();
+								role.roleType = int.Parse (dataRow [1].ToString ());
+								role.roleLevel = int.Parse (dataRow [2].ToString ());
+								double coord;
+								if (double.TryParse (dataRow [3].ToString (), out coord))
+									role.x = coord;
+								if (double.TryParse (dataRow [4].ToString (), out coord))
+									role.y = coord;
+								if (double.TryParse (dataRow [5].ToString (), out coord))
+									role.z = coord;
+								if (double.TryParse (dataRow [6].ToString (), out coord))
+									role.rotatex = coord;
+								if (double.TryParse (dataRow [7].ToString (), out coord))
+									role.rotatey = coord;
+								if (double.TryParse (dataRow [8].ToString (), out coord))
+									role.rotatez = coord;
+								resultObj.RolesInfo.Add (role);
+								strAccount = dataRow[9].ToString();
+							}
 						}
 					}
+					catch (Exception e)
+					{
+						JLog.Error("JProcesserSignInServer.run "+e.Message);
+					}
+
 				}
 				while(false);
 

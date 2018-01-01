@@ -52,13 +52,10 @@ namespace JGame.Processor
 				{
 					JLog.Error ("CheckRoleNameIsValud."+e.Message);
 				}
-				finally
-				{
-					mysql.Close();
-				}
 
 				if (!mysql.Connected)
 				{
+					mysql.Close();
 					JLog.Error("JProcessorCreateRole.run open database fialied");
 					break;
 				}
@@ -150,13 +147,13 @@ namespace JGame.Processor
 				{
 					ErrorType = (int) JCreateRoleRetObject.CreateRoleResultType.successed;
 					JLog.Debug("Create role success, account: "+account+" roleName:"+roleName+" roleType:"+roleType);
-					return false;
+					return true;
 				}
 				else
 				{
 					ErrorType = (int) JCreateRoleRetObject.CreateRoleResultType.failed;
 					JLog.Debug("Create role falied, account: "+account+" roleName:"+roleName+" roleType:"+roleType);
-					return true;
+					return false;
 				}
 			}
 			catch(Exception e) {
