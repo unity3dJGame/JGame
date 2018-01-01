@@ -1,11 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace JGame.StreamObject
 {
 	public class JCreateRoleReqObject : IStreamObj
 	{
 		public string RoleName;
-		public string RoleType;
+		public int RoleType;
 		public JCreateRoleReqObject ()
 		{
 		}
@@ -27,7 +28,7 @@ namespace JGame.StreamObject
 		public void Read (ref JInputStream stream)
 		{
 			RoleName = JBinaryReaderWriter.Read<string> (stream);
-			RoleType = JBinaryReaderWriter.Read<string> (stream);
+			RoleType = JBinaryReaderWriter.Read<Int16> (stream);
 		}
 
 		/// <summary>
@@ -40,7 +41,7 @@ namespace JGame.StreamObject
 				stream = new JOutputStream ();
 			JBinaryReaderWriter.Write (ref stream, Type());
 			JBinaryReaderWriter.Write (ref stream, RoleName);
-			JBinaryReaderWriter.Write (ref stream, RoleType);
+			JBinaryReaderWriter.Write (ref stream, (Int16)RoleType);
 		}
 	}
 
@@ -51,10 +52,15 @@ namespace JGame.StreamObject
 
 		public enum CreateRoleResultType
 		{
+			[Description("成功")]
 			successed = 0,
+			[Description("角色名已存在")]
 			RoleNameRepeated,
+			[Description("角色名不合法")]
 			RoleNameNotAllowed,
+			[Description("角色类型错误")]
 			RoleTypeError,
+			[Description("其它错误")]
 			failed
 		}
 

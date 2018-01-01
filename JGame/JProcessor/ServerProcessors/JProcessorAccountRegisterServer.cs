@@ -20,14 +20,15 @@ namespace JGame
 				if (accountRegisterObj == null)
 					return;
 				
-				JMySqlAccess sqlite = new JMySqlAccess ("mysql", "127.0.0.1", "root", "684268");
-				if (!sqlite.Open())
+				JMySqlAccess mysql = new JMySqlAccess (JDBUtil.ServerDatabaseName, JDBUtil.ServerDatasource, JDBUtil.ServerUser, JDBUtil.ServerUserCode);
+				if (!mysql.Open())
 					return;
-				if (!sqlite.Connected)
+				if (!mysql.Connected)
 						return;
 
-				DataSet data = sqlite.Select (string.Format(
-					@"Select count(1) from user_info t where t.user_account = '{0}' or t.user_email = '{1}'" ,
+				DataSet data = mysql.Select (string.Format(
+					@"Select count(1) from {0} t where t.user_account = '{1}' or t.user_email = '{2}'" ,
+					JDBUtil.TableName_Server_UserInfo,
 					accountRegisterObj._strAccount,
 					accountRegisterObj._strEmailAddress));
 
@@ -51,17 +52,23 @@ namespace JGame
 					if (!bAreadyExisted)
 					{
 						string resultMssage = "";
-						bool inserResult = sqlite.DoSql(
+						bool inserResult = mysql.DoSql(
 							string.Format("INSERT into  {0}  ( user_account, user_code, user_email)  VALUES( '{1}' , '{2}' , '{3}' );",
-								"user_info", 
+								JDBUtil.TableName_Server_UserInfo, 
 								accountRegisterObj._strAccount, 
 								accountRegisterObj._strCode, 
 								accountRegisterObj._strEmailAddress),  ref resultMssage);
 						JLog.Info ("resultMssage");
 						if (inserResult)
+						{
 							retObj.Result = JObjAccountRegisterRet.AccountRegisterResultType.successed;
+							JLog.Debug("Create account success, account: "+accountRegisterObj._strAccount);
+						}
 						else
+						{
 							retObj.Result = JObjAccountRegisterRet.AccountRegisterResultType.failed;
+							JLog.Debug("Create account falied, account: "+accountRegisterObj._strAccount);
+						}
 					}
 					else
 					{
@@ -72,7 +79,7 @@ namespace JGame
 					JLog.Error (e.Message);
 				}
 				finally {
-					sqlite.Close ();
+					mysql.Close ();
 				}
 
 				try {

@@ -50,11 +50,12 @@ namespace JGame
 				while(false);
 				resultObj.Result = bSuccess;
 
-				string[] items 		= 	new string[] { "role_name", "role_type", "role_level", "x", "y", "z", "x_rotation", "y_rotation", "z_rotation"};
+				string[] items 		= 	new string[] { "role_name", "role_type", "role_level", "x", "y", "z", "x_rotation", "y_rotation", "z_rotation", "user_account"};
 				string[] where_cols =	new string[] {"user_account"};
 				string[] operation 	= 	new string[] {"="};
 				string[] values 	= 	new string[] {signInObj._strAccount};
 
+				string strAccount = null;
 				DataSet roleInfo = sqlite.Select ("role_info", items, where_cols, operation, values);
 				do
 				{
@@ -78,10 +79,26 @@ namespace JGame
 							role.rotatey = double.Parse (dataRow [7].ToString ());
 							role.rotatez = double.Parse (dataRow [8].ToString ());
 							resultObj.RolesInfo.Add (role);
+							strAccount = dataRow[9].ToString();
 						}
 					}
 				}
 				while(false);
+
+				if (null != strAccount) {
+					//记录当前新增的登录信息到对应的dataSet
+					IStreamObj clientobj = dataSet.getData(JObjectType.sign_in_info);
+					if (null != clientobj) {
+						JSignInClientInfoObject clientInfo = clientobj as JSignInClientInfoObject;
+						clientInfo.Info.Account = strAccount;
+					} else {
+						JSignInClientInfoObject clientInfo= new JSignInClientInfoObject();
+						clientInfo.Info.Account = strAccount;
+						clientobj = clientInfo;
+					}
+					JLog.Info("JProcesserSignInServer.run add connected client info dataset, account:"+strAccount, JGame.Log.JLogCategory.Network);
+					dataSet.setData (clientobj);
+				}
 
 				try {
 					JNetworkDataOperator.SendData (JPacketType.npt_signin_ret, resultObj, dataSet.EndPoint);
