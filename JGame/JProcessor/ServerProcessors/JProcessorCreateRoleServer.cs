@@ -83,6 +83,7 @@ namespace JGame.Processor
 					createRoleRetObj.Result = (JCreateRoleRetObject.CreateRoleResultType)nErrorType;
 					JLog.Info ("JProcessorCreateRole.run CreateRole falied, error type:" + createRoleRetObj.Result.GetDescription ());
 				}
+				createRoleRetObj.Result = JCreateRoleRetObject.CreateRoleResultType.successed;
 				mysql.Close ();
 
 			} while (false);
