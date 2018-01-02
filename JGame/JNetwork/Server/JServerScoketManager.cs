@@ -84,7 +84,7 @@ namespace JGame.Network
 			JNetworkServerInfo.ServerIP = serverIP;
 			JNetworkServerInfo.ServerPort = serverPort;
 			_socketLocker = new object ();
-			_semaphore = new Semaphore (0, 1);
+			_semaphore = new Semaphore (0, 10000);
 			JNetworkInteractiveData.ReceivedData = new JNetworkDataQueue ();
 			JNetworkInteractiveData.SendData = new JNetworkDataQueue ();
 			IPAddress ip_server = IPAddress.Parse (serverIP); 
@@ -168,6 +168,7 @@ namespace JGame.Network
 					break;
 				
 				if (_semaphore.WaitOne (1)) {
+					_semaphore = new Semaphore (0, 10000);
 					JLog.Info ("JServerSocketManager ReceiveLoop _semaphore.WaitOne(1) success", JGame.Log.JLogCategory.Network);
 					lock (_socketLocker) {
 						foreach (Socket socket in JConnectedClientSocket.sockets) {

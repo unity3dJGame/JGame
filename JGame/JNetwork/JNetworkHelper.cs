@@ -96,7 +96,8 @@ namespace JGame
 					if (!_sendSemaphore.WaitOne (millisecondsTimeout))
 						return null;
 				}
-				
+				_sendSemaphore = new Semaphore(0,10000);
+
 				List<JNetworkData> listData = new List<JNetworkData> ();
 
 				try{
@@ -104,8 +105,7 @@ namespace JGame
 						while (JNetworkInteractiveData.SendData.Data.Count > 0)
 							listData.Add (JNetworkInteractiveData.SendData.Data.Dequeue ());
 					}						
-					_sendSemaphore = null;
-					_sendSemaphore = new Semaphore(0,10000);
+
 				}
 				catch (Exception e) {
 					JLog.Error ("TakeSendData:" + e.Message, JGame.Log.JLogCategory.Network);
@@ -152,6 +152,7 @@ namespace JGame
 				if (!_receivedSemaphore.WaitOne (1)) {
 					return listData;
 				}
+				_receivedSemaphore = new Semaphore(0,10000);
 
 				try{
 					lock (_receiveLocker) {
@@ -161,8 +162,6 @@ namespace JGame
 						while (JNetworkInteractiveData.ReceivedData.Data.Count > 0)
 							listData.Add (JNetworkInteractiveData.ReceivedData.Data.Dequeue ());
 					}
-					_receivedSemaphore = null;
-					_receivedSemaphore = new Semaphore(0,10000);
 				}
 				catch (Exception e) {
 					JLog.Error ("TakeSendData:" + e.Message, JGame.Log.JLogCategory.Network);
