@@ -144,6 +144,7 @@ namespace JGame.StreamObject
 			} else if (inputObj.GetType ().IsClass) {
 				IStreamObj obj = inputObj as IStreamObj;
 				if (null != obj) {
+					Write (ref jstream, obj.Type ());
 					obj.Write (ref jstream);
 				} else
 					JLog.Error ("JBinaryReaderWriter.Write: not support this class type:"  + inputObj.GetType().ToString ());

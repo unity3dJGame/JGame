@@ -10,6 +10,7 @@ namespace JGame
 	using JGame.Logic;
 	using JGame.Network;
 	using JGame.Processor;
+	using JGame.Time;
 	using JGame.Logic;
 
 	public class JGameManager
@@ -66,6 +67,8 @@ namespace JGame
 
 			//initialize log system.
 			JLog.Initialize ();
+			//initialize time
+			JTime.Start();
 
 			//initialize server or client network manager
 			if (bServer) {

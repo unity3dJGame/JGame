@@ -30,7 +30,6 @@ namespace JGame.StreamObject
 		{ 
 			if (null == stream)
 				stream = new JOutputStream ();
-			JBinaryReaderWriter.Write(ref stream, Type());
 			JBinaryReaderWriter.Write (ref stream, Info.Account);
 			
 			stream.Flush ();

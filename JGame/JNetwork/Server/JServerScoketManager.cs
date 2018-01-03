@@ -21,6 +21,7 @@ namespace JGame.Network
 		private static object				_socketLocker = null;
 		private static bool					_forceEnd = false; 
 
+
 		private JServerSocketManager ()
 		{
 			JConnectedClientSocket.sockets = new List<Socket> ();

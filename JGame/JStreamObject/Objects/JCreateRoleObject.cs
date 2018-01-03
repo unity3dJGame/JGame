@@ -39,7 +39,6 @@ namespace JGame.StreamObject
 		{
 			if (null == stream)
 				stream = new JOutputStream ();
-			JBinaryReaderWriter.Write (ref stream, Type());
 			JBinaryReaderWriter.Write (ref stream, RoleName);
 			JBinaryReaderWriter.Write (ref stream, (Int16)RoleType);
 		}
@@ -96,7 +95,6 @@ namespace JGame.StreamObject
 		{
 			if (null == stream)
 				stream = new JOutputStream ();
-			JBinaryReaderWriter.Write (ref stream, Type());
 			JBinaryReaderWriter.Write (ref stream, (ushort)Result);
 			JBinaryReaderWriter.Write (ref stream, UserId);
 		}
