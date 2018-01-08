@@ -4,11 +4,13 @@ using System.Net.Sockets;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using System.Timers;
 
 namespace JGame.Network
 {
 	using JGame.StreamObject;
 	using JGame.Network.Setting;
+	using JGame.Time;
 
 	public class JServerSocketManager
 	{
@@ -20,7 +22,9 @@ namespace JGame.Network
 		private static Semaphore			_semaphore = null;
 		private static object				_socketLocker = null;
 		private static bool					_forceEnd = false; 
-
+		private static System.Timers.Timer  _headbeatTimer = null;
+		private static object 				_heartbeatLocker = null;
+		private static Dictionary<Socket, ulong> _socketHeartDelayTime;
 
 		private JServerSocketManager ()
 		{
@@ -48,6 +52,9 @@ namespace JGame.Network
 			catch (Exception e) {
 				JLog.Error (e.Message, JGame.Log.JLogCategory.Network);
 			}
+
+			_headbeatTimer.Stop();
+			_headbeatTimer.Close();
 		}
 
 		public bool Initialized
@@ -82,6 +89,8 @@ namespace JGame.Network
 
 			JLog.Info ("JServerSocketManager begin to initialize :", JGame.Log.JLogCategory.Network);
 
+			_socketHeartDelayTime = new Dictionary<Socket, ulong> ();
+			_heartbeatLocker = new object ();
 			JNetworkServerInfo.ServerIP = serverIP;
 			JNetworkServerInfo.ServerPort = serverPort;
 			_socketLocker = new object ();
@@ -114,6 +123,11 @@ namespace JGame.Network
 				JLog.Error ("JServerSocketManager initialize faield  error message: " + e.Message, JGame.Log.JLogCategory.Network);
 				return;
 			}
+
+			//start heart beat check
+			_headbeatTimer = new System.Timers.Timer(1000);
+			_headbeatTimer.Elapsed +=  heatbeatTest;
+			_headbeatTimer.Start ();
 		}
 
 		private void AcceptLoop()
@@ -140,8 +154,21 @@ namespace JGame.Network
 							{
 								JConnectedClientSocket.sockets.Add(currentConnectedSocket);
 
-								JLog.Info("client connected :"+(currentConnectedSocket.RemoteEndPoint as IPEndPoint).Address.ToString(), JGame.Log.JLogCategory.Network);
+								JLog.Info("JServerSocketManager.AcceptLoop client connected :"+
+									(currentConnectedSocket.RemoteEndPoint as IPEndPoint).Address.ToString(), JGame.Log.JLogCategory.Network);
 								_semaphore.Release();
+							}
+							else {
+								JLog.Info("JServerSocketManager.AcceptLoop connected client connected again"
+									+(currentConnectedSocket.RemoteEndPoint as IPEndPoint).Address.ToString(), JGame.Log.JLogCategory.Network);
+							}
+						}
+
+						lock (_heartbeatLocker)
+						{
+							if (!_socketHeartDelayTime.ContainsKey(currentConnectedSocket))
+							{
+								_socketHeartDelayTime.Add(currentConnectedSocket, 0);
 							}
 						}
 					}
@@ -199,6 +226,19 @@ namespace JGame.Network
 				{
 					/*if (socket.Available <= 0)
 						continue;*/
+
+					//如果接收到了新的消息就重置包时间
+					lock (_heartbeatLocker) 
+					{
+						if (_socketHeartDelayTime.ContainsKey (socket)) 
+						{
+							_socketHeartDelayTime [socket] = JTime.CurrentTime;
+						}
+						else 
+						{
+							_socketHeartDelayTime.Add (socket, JTime.CurrentTime);
+						}
+					}
 					
 					//receive form client socket
 					bool bReceivedSuccess = false;
@@ -308,6 +348,25 @@ namespace JGame.Network
 
 			JLog.Info("JServerSocketManager server send loop end", JGame.Log.JLogCategory.Network);
 
+		}
+
+		private void heatbeatTest(object sender, ElapsedEventArgs e)
+		{
+			if (null == _socketHeartDelayTime || _socketHeartDelayTime.Count <= 0)
+				return;
+
+			foreach (var time in _socketHeartDelayTime) 
+			{
+				if (JTime.CurrentTime - time.Value > 10000) //10s 
+				{
+					lock (_heartbeatLocker) 
+					{
+						_socketHeartDelayTime.Remove (time.Key);
+						JLog.Info (string.Format ("JServerSocektManager.Heartbeat Client dissconnected : {0}", 
+							(time.Key.RemoteEndPoint as IPEndPoint).Address.ToString ()), JGame.Log.JLogCategory.Network);
+					}
+				}
+			}
 		}
 	}
 }
